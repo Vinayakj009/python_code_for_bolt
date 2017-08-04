@@ -6,20 +6,20 @@ OFF = 0
 status_flag = OFF
 
 def switch_on():
-        r = requests.get("http://cloud.boltiot.com/remote/api_key/digitalMultiWrite?pins=1,2&states=HIGH,HIGH&"+
+        r = requests.get("http://cloud.boltiot.com/remote/api_key/digitalWrite?pin=0&state=HIGH&"+
                          "deviceName=BOLTXXXXXX")
         print "On"
 
 def switch_off():
-        r = requests.get("http://cloud.boltiot.com/remote/api_key/digitalMultiWrite?pins=1,2&states=LOW,LOW&"+
+        r = requests.get("http://cloud.boltiot.com/remote/api_key/digitalWrite?pin=0&state=LOW&"+
                  "deviceName=BOLTXXXXXX")
         print "Off"
 
 def get_ldr_data():
-        r = requests.get("http://cloud.boltiot.com/remote/api_key/analogRead?pin=A0&"+
+        r = requests.get("http://cloud.boltiot.com/remote/api_key/digitalRead?pin=4&"+
                          "deviceName=BOLTYYYYYY")
         data = json.loads(r.text)
-        print "ldr adc value = ", data['value']
+        print "ldr sensor value = ", data['value']
         return data['value']
 
 switch_off()
@@ -38,11 +38,11 @@ while True:
         elif ldr_data == 1 and status_flag == ON: #Bright light , HIGH on pin 4
             switch_off()
             status_flag = OFF
-                        print "status",status_flag
+            print "status",status_flag
         else:
-             pass
+            pass
         time.sleep(5)
         except Exception as e:
-                print e
-                time.sleep(5)
+            print e
+            time.sleep(5)
 
