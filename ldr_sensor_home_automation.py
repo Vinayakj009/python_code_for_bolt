@@ -3,21 +3,27 @@ import time
 
 ON = 1
 OFF = 0
+switch_pin=0
+ldr_pin=4
 status_flag = OFF
+bolt_api_key='PLACE YOUR BOLTCLOUD API KEY HERE' #This api key can be found in API tab of bolt cloud login
+bolt_id='PLACE YOUR BOLT DEVICE ID HERE' #example BOLT345678. This device id is visible in you boltcloud login devices tab, or products tab
+
+
 
 def switch_on():
-        r = requests.get("http://cloud.boltiot.com/remote/api_key/digitalWrite?pin=0&state=HIGH&"+
-                         "deviceName=BOLTXXXXXX")
+        r = requests.get("http://cloud.boltiot.com/remote/"+bolt_api_key+"/digitalWrite?pin="+switch_pin+"&state=HIGH&"+
+                         "deviceName="+bolt_id)
         print "On"
 
 def switch_off():
-        r = requests.get("http://cloud.boltiot.com/remote/api_key/digitalWrite?pin=0&state=LOW&"+
-                 "deviceName=BOLTXXXXXX")
+        r = requests.get("http://cloud.boltiot.com/remote/"+bolt_api_key+"/digitalWrite?pin="+switch_pin+"&state=LOW&"+
+                 "deviceName="+bolt_id)
         print "Off"
 
 def get_ldr_data():
-        r = requests.get("http://cloud.boltiot.com/remote/api_key/digitalRead?pin=4&"+
-                         "deviceName=BOLTYYYYYY")
+        r = requests.get("http://cloud.boltiot.com/remote/"+bolt_api_key+"/digitalRead?pin="+ldr_pin+"&"+
+                         "deviceName="+bolt_id)
         data = json.loads(r.text)
         print "ldr sensor value = ", data['value']
         return data['value']
